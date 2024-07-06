@@ -20,4 +20,6 @@ RUN dotnet publish "TasksApp.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ["appsettings.json", "./"]
+ENV ASPNETCORE_ENVIRONMENT Production
 ENTRYPOINT ["dotnet", "TasksApp.dll"]

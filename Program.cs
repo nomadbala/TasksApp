@@ -30,6 +30,7 @@ else
     app.UseExceptionHandler("/error");
 }
 
+await Task.Delay(6000);
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();

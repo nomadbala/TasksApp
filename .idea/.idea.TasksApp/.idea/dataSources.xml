@@ -9,5 +9,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5433/todolist?password=password&amp;user=todolist</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="postgres@dpg-cq4k12o8fa8c73fqpheg-a.oregon-postgres.render.com" uuid="4f12a37c-bac5-4b5b-8046-d2957705d395">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://dpg-cq4k12o8fa8c73fqpheg-a.oregon-postgres.render.com:5432/postgres</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
