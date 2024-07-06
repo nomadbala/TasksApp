@@ -12,6 +12,7 @@
           "Microsoft.AspNetCore.OpenApi": "8.0.6",
           "Microsoft.EntityFrameworkCore": "8.0.6",
           "Microsoft.EntityFrameworkCore.Design": "8.0.6",
+          "NetEscapades.AspNetCore.SecurityHeaders": "0.22.0",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.4",
           "Swashbuckle.AspNetCore": "6.4.0"
         },
@@ -544,6 +545,14 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {
             "assemblyVersion": "2.2.0.0",
             "fileVersion": "2.2.1.1"
+          }
+        }
+      },
+      "NetEscapades.AspNetCore.SecurityHeaders/0.22.0": {
+        "runtime": {
+          "lib/netcoreapp3.0/NetEscapades.AspNetCore.SecurityHeaders.dll": {
+            "assemblyVersion": "0.22.0.0",
+            "fileVersion": "0.22.0.0"
           }
         }
       },
@@ -1268,6 +1277,13 @@
       "sha512": "sha512-KZYeKBET/2Z0gY1WlTAK7+RHTl7GSbtvTLDXEZZojUdAPqpQNDL6tHv7VUpqfX5VEOh+uRGKaZXkuD253nEOBQ==",
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
+    },
+    "NetEscapades.AspNetCore.SecurityHeaders/0.22.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8Nzff7nu6SdvV7tq4six1P4ALIwFhpIaOFzYEfLlUi1qWZXoaC/kaUF+BXYRw9Jh7SfA2580z21ATg8OY0xfUg==",
+      "path": "netescapades.aspnetcore.securityheaders/0.22.0",
+      "hashPath": "netescapades.aspnetcore.securityheaders.0.22.0.nupkg.sha512"
     },
     "Newtonsoft.Json/11.0.2": {
       "type": "package",

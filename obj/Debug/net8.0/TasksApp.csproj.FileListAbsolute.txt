@@ -107,3 +107,4 @@ C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\TasksApp.sourcel
 C:\Users\sayat\Documents\halyk-intern\TasksApp\bin\Debug\net8.0\AspNetCore.HealthChecks.dll
 C:\Users\sayat\Documents\halyk-intern\TasksApp\bin\Debug\net8.0\Extensions.HealthChecks.dll
 C:\Users\sayat\Documents\halyk-intern\TasksApp\bin\Debug\net8.0\Newtonsoft.Json.dll
+C:\Users\sayat\Documents\halyk-intern\TasksApp\bin\Debug\net8.0\NetEscapades.AspNetCore.SecurityHeaders.dll
