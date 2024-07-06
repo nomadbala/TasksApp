@@ -1,15 +1,20 @@
-﻿FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 80
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["TasksApp.csproj", "./"]
-RUN dotnet restore "TasksApp.csproj"
+COPY ["ProxyServer.csproj", ""]
+RUN dotnet restore "./ProxyServer.csproj"
 COPY . .
-WORKDIR "/src/"
-RUN dotnet build "TasksApp.csproj" -c Release -o /app/build
+WORKDIR "/src/."
+RUN dotnet build "ProxyServer.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "TasksApp.csproj" -c Release -o /app/publish
+RUN dotnet publish "ProxyServer.csproj" -c Release -o /app/publish
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TasksApp.dll"]
+
+ENTRYPOINT ["dotnet", "ProxyServer.dll"]
