@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TasksApp.Contracts;
+using TasksApp.Exceptions;
 using TasksApp.Model;
+using TasksApp.Service;
 
 namespace TasksApp.Repository;
 
@@ -13,28 +15,42 @@ public class TodoRepository : ITodoRepository
         _context = context;
     }
 
-    public async Task<Guid> CreateAsync(NewTodoItemContract contract)
+    public async Task<Guid> CreateAsync(CreateTaskContract contract)
     {
-        var todo = new TodoItem(contract.Title, DateTime.Today, false);
+        if (await _context.Todos.AnyAsync(t => t.Title == contract.Title && t.ActiveAt == contract.ActiveAt))
+            throw new ElementAlreadyExistsException($"Task with title ${contract.Title} and date ${contract.ActiveAt} already exists");
+
+        contract.ActiveAt = DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc);
         
+        var todo = new TodoItem
+        {
+            Title = contract.Title,
+            ActiveAt = DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc)
+        };
+    
         await _context.AddAsync(todo);
         await _context.SaveChangesAsync();
 
         return todo.Id;
     }
 
-    public async Task UpdateAsync(Guid id, TodoItem todoItem)
+    public async Task UpdateAsync(Guid id, UpdateTaskContract contract)
     {
+        if (!await _context.Todos.AnyAsync(t => t.Title == contract.Title && t.ActiveAt == contract.ActiveAt))
+            throw new ElementNotFoundException($"Task with title ${contract.Title} and date ${contract.ActiveAt} not found");
+        
         await _context.Todos
             .Where(t => t.Id == id)
             .ExecuteUpdateAsync(s => s
-                .SetProperty(t => t.Title, t => todoItem.Title)
-                .SetProperty(t => t.ActiveAt, t => todoItem.ActiveAt)
-                .SetProperty(t => t.IsDone, t => todoItem.IsDone));
+                .SetProperty(t => t.Title, t => contract.Title)
+                .SetProperty(t => t.ActiveAt, t => DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc)));
     }
 
     public async Task DeleteAsync(Guid id)
     {
+        if (!await _context.Todos.AnyAsync(t => t.Id == id))
+            throw new ElementNotFoundException($"Task with id ${id} not found");
+        
         await _context.Todos
             .Where(t => t.Id == id)
             .ExecuteDeleteAsync();
@@ -42,6 +58,9 @@ public class TodoRepository : ITodoRepository
 
     public async Task MarkDone(Guid id)
     {
+        if (!await _context.Todos.AnyAsync(t => t.Id == id))
+            throw new ElementNotFoundException($"Task with id ${id} not found");
+        
         await _context.Todos
             .Where(t => t.Id == id)
             .ExecuteUpdateAsync(s => s
@@ -50,10 +69,21 @@ public class TodoRepository : ITodoRepository
 
     public async Task<List<TodoItem>> GetAllActiveAsync()
     {
-        return await _context.Todos
+        var today = DateTime.UtcNow.Date;
+
+        var isWeekend = today.DayOfWeek == DayOfWeek.Saturday || today.DayOfWeek == DayOfWeek.Sunday;
+        
+        var tasks = await _context.Todos
             .Where(t => !t.IsDone)
-            .Where(t => t.ActiveAt.Date <= DateTime.Now)
+            .Where(t => t.ActiveAt.Date <= DateTime.UtcNow)
             .ToListAsync();
+        
+        if (isWeekend)
+        {
+            tasks.ForEach(t => t.Title = $"ВЫХОДНОЙ - {t.Title}");
+        }
+
+        return tasks;
     }
 
     public async Task<List<TodoItem>> GetAllDoneAsync()

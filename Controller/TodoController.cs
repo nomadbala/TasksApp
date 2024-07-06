@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TasksApp.Contracts;
+using TasksApp.Exceptions;
 using TasksApp.Model;
 using TasksApp.Service;
 
 namespace TasksApp.Controller;
 
 [ApiController]
-[Route("/api/todo-list/tasks")]
+[Route("api/todo-list/tasks")]
 public class TodoController : ControllerBase
 {
     private readonly ITodoService _service;
@@ -17,19 +18,20 @@ public class TodoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<Guid>> CreateAsync([FromBody] NewTodoItemContract contract)
+    public async Task<ActionResult<Guid>> CreateAsync([FromBody] CreateTaskContract contract)
     {
-        if (contract == null)
-            return BadRequest();
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
         try
         {
             var id = await _service.CreateAsync(contract);
 
-            if (id == Guid.Empty)
-                return StatusCode(301);
-
-            return CreatedAtAction(nameof(CreateAsync), new { id }, id);
+            return StatusCode(201, id);
+        }
+        catch (ElementAlreadyExistsException e)
+        {
+            return StatusCode(404, e.Message);
         }
         catch (Exception e)
         {
@@ -38,20 +40,20 @@ public class TodoController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] TodoItem todoItem)
+    public async Task<ActionResult> UpdateAsync(Guid id, [FromBody] UpdateTaskContract contract)
     {
-        if (id == Guid.Empty || todoItem == null)
-            return BadRequest();
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
         try
         {
-            await _service.UpdateAsync(id, todoItem);
+            await _service.UpdateAsync(id, contract);
 
             return NoContent();
         }
-        catch (KeyNotFoundException)
+        catch (ElementNotFoundException e)
         {
-            return NotFound();
+            return StatusCode(404, e.Message);
         }
         catch (Exception e)
         {
@@ -62,8 +64,8 @@ public class TodoController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteAsync(Guid id)
     {
-        if (id == Guid.Empty)
-            return BadRequest();
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
         try
         {
@@ -71,9 +73,9 @@ public class TodoController : ControllerBase
 
             return NoContent();
         }
-        catch (KeyNotFoundException)
+        catch (ElementNotFoundException e)
         {
-            return NotFound();
+            return StatusCode(404, e.Message);
         }
         catch (Exception e)
         {
@@ -84,8 +86,8 @@ public class TodoController : ControllerBase
     [HttpPost("{id}/done")]
     public async Task<ActionResult> MarkDoneAsync(Guid id)
     {
-        if (id == Guid.Empty)
-            return BadRequest();
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
         try
         {
@@ -93,9 +95,9 @@ public class TodoController : ControllerBase
 
             return NoContent();
         }
-        catch (KeyNotFoundException)
+        catch (ElementNotFoundException e)
         {
-            return NotFound();
+            return StatusCode(404, e.Message);
         }
         catch (Exception e)
         {
@@ -106,8 +108,8 @@ public class TodoController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<TodoItem>>> GetAllByStatus([FromQuery] string status)
     {
-        if (string.IsNullOrEmpty(status))
-            return BadRequest();
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
         try
         {

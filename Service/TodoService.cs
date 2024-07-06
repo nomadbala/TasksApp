@@ -13,14 +13,28 @@ public class TodoService : ITodoService
         _repository = repository;
     }
 
-    public async Task<Guid> CreateAsync(NewTodoItemContract contract)
+    public async Task<Guid> CreateAsync(CreateTaskContract contract)
     {
+        if (contract.ActiveAt < DateTime.MinValue || contract.ActiveAt > DateTime.MaxValue)
+        {
+            throw new ArgumentOutOfRangeException(nameof(contract.ActiveAt));
+        }
+        
+        contract.ActiveAt = DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc);
+        
         return await _repository.CreateAsync(contract);
     }
 
-    public async Task UpdateAsync(Guid id, TodoItem todoItem)
+    public async Task UpdateAsync(Guid id, UpdateTaskContract contract)
     {
-        await _repository.UpdateAsync(id, todoItem);
+        if (contract.ActiveAt < DateTime.MinValue || contract.ActiveAt > DateTime.MaxValue)
+        {
+            throw new ArgumentOutOfRangeException(nameof(contract.ActiveAt));
+        }
+        
+        contract.ActiveAt = DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc);
+        
+        await _repository.UpdateAsync(id, contract);
     }
 
     public async Task DeleteAsync(Guid id)
@@ -35,15 +49,13 @@ public class TodoService : ITodoService
 
     public async Task<List<TodoItem>> GetAllByStatusAsync(string status = "active")
     {
-        if (status == "active")
-        {
-            return await _repository.GetAllActiveAsync();
-        }
-        else if (status == "done")
+        if (status == "done")
         {
             return await _repository.GetAllDoneAsync();
         }
-
-        throw new Exception();
+        else
+        {
+            return await _repository.GetAllActiveAsync();
+        }
     }
 }

@@ -4,9 +4,10 @@ namespace TasksApp.Model;
 
 public class TodoItem
 {
-    [Required(ErrorMessage = "Id cannot be empty")]
+    [Key]
     public Guid Id { get; set; }
     
+    [Required]
     [MaxLength(200, ErrorMessage = "Title cannot contain more than 200 symbols")]
     public string Title { get; set; }
     
@@ -14,11 +15,13 @@ public class TodoItem
     
     public bool IsDone { get; set; }
 
-    public TodoItem(string title, DateTime activeAt, bool isDone)
+    public TodoItem() { }
+
+    public TodoItem(string title, DateTime activeAt)
     {
         Id = Guid.NewGuid();
         Title = title;
-        ActiveAt = activeAt;
-        IsDone = isDone;
+        ActiveAt = DateTime.SpecifyKind(activeAt, DateTimeKind.Utc);
+        IsDone = false;
     }
 }

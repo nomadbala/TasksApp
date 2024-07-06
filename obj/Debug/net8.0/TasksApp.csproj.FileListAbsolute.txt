@@ -103,3 +103,4 @@ C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\refint\TasksApp.
 C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\TasksApp.pdb
 C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\TasksApp.genruntimeconfig.cache
 C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\ref\TasksApp.dll
+C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\TasksApp.sourcelink.json
