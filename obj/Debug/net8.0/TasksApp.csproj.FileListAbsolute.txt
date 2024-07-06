@@ -104,3 +104,6 @@ C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\TasksApp.pdb
 C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\TasksApp.genruntimeconfig.cache
 C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\ref\TasksApp.dll
 C:\Users\sayat\Documents\halyk-intern\TasksApp\obj\Debug\net8.0\TasksApp.sourcelink.json
+C:\Users\sayat\Documents\halyk-intern\TasksApp\bin\Debug\net8.0\AspNetCore.HealthChecks.dll
+C:\Users\sayat\Documents\halyk-intern\TasksApp\bin\Debug\net8.0\Extensions.HealthChecks.dll
+C:\Users\sayat\Documents\halyk-intern\TasksApp\bin\Debug\net8.0\Newtonsoft.Json.dll

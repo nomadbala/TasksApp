@@ -20,12 +20,10 @@ public class TodoRepository : ITodoRepository
         if (await _context.Todos.AnyAsync(t => t.Title == contract.Title && t.ActiveAt == contract.ActiveAt))
             throw new ElementAlreadyExistsException($"Task with title ${contract.Title} and date ${contract.ActiveAt} already exists");
 
-        contract.ActiveAt = DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc);
-        
         var todo = new TodoItem
         {
             Title = contract.Title,
-            ActiveAt = DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc)
+            ActiveAt = contract.ActiveAt
         };
     
         await _context.AddAsync(todo);
@@ -36,15 +34,23 @@ public class TodoRepository : ITodoRepository
 
     public async Task UpdateAsync(Guid id, UpdateTaskContract contract)
     {
-        if (!await _context.Todos.AnyAsync(t => t.Title == contract.Title && t.ActiveAt == contract.ActiveAt))
-            throw new ElementNotFoundException($"Task with title ${contract.Title} and date ${contract.ActiveAt} not found");
-        
-        await _context.Todos
-            .Where(t => t.Id == id)
-            .ExecuteUpdateAsync(s => s
-                .SetProperty(t => t.Title, t => contract.Title)
-                .SetProperty(t => t.ActiveAt, t => DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc)));
+        var existingTask = await _context.Todos.FirstOrDefaultAsync(t => t.Id == id);
+        if (existingTask == null)
+        {
+            throw new ElementNotFoundException($"Task with ID {id} not found");
+        }
+
+        if (await _context.Todos.AnyAsync(t => t.Id != id && t.Title == contract.Title && t.ActiveAt.Date == contract.ActiveAt.Date))
+        {
+            throw new ElementNotFoundException($"Task with title '{contract.Title}' and date '{contract.ActiveAt}' already exists");
+        }
+
+        existingTask.Title = contract.Title;
+        existingTask.ActiveAt = contract.ActiveAt.Date;
+
+        await _context.SaveChangesAsync();
     }
+
 
     public async Task DeleteAsync(Guid id)
     {
@@ -75,7 +81,7 @@ public class TodoRepository : ITodoRepository
         
         var tasks = await _context.Todos
             .Where(t => !t.IsDone)
-            .Where(t => t.ActiveAt.Date <= DateTime.UtcNow)
+            .Where(t => t.ActiveAt <= DateTime.UtcNow)
             .ToListAsync();
         
         if (isWeekend)

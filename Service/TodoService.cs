@@ -16,9 +16,7 @@ public class TodoService : ITodoService
     public async Task<Guid> CreateAsync(CreateTaskContract contract)
     {
         if (contract.ActiveAt < DateTime.MinValue || contract.ActiveAt > DateTime.MaxValue)
-        {
             throw new ArgumentOutOfRangeException(nameof(contract.ActiveAt));
-        }
         
         contract.ActiveAt = DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc);
         
@@ -28,10 +26,8 @@ public class TodoService : ITodoService
     public async Task UpdateAsync(Guid id, UpdateTaskContract contract)
     {
         if (contract.ActiveAt < DateTime.MinValue || contract.ActiveAt > DateTime.MaxValue)
-        {
             throw new ArgumentOutOfRangeException(nameof(contract.ActiveAt));
-        }
-        
+
         contract.ActiveAt = DateTime.SpecifyKind(contract.ActiveAt, DateTimeKind.Utc);
         
         await _repository.UpdateAsync(id, contract);
