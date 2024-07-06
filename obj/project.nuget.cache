@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+QzXAV24DGpgdfX4qVBREt5WYxoBv9QteaoRegiPmdL+uQ4CbTHMOSCOKDFkgVbMB3rSdiF/O0NPJlwIzynhtg==",
+  "dgSpecHash": "YB/1UBPd6uYQec7fEW/JRIiak/t8lD89d5ADZ4rJmAJV8+ipNZF7/j8UNzQ1yzCmLoRxsIqfJrVAFZV2wrxz3Q==",
   "success": true,
   "projectFilePath": "C:\\Users\\sayat\\Documents\\halyk-intern\\TasksApp\\TasksApp.csproj",
   "expectedPackageFiles": [
@@ -53,6 +53,7 @@
     "C:\\Users\\sayat\\.nuget\\packages\\microsoft.win32.primitives\\4.3.0\\microsoft.win32.primitives.4.3.0.nupkg.sha512",
     "C:\\Users\\sayat\\.nuget\\packages\\microsoft.win32.registry\\4.3.0\\microsoft.win32.registry.4.3.0.nupkg.sha512",
     "C:\\Users\\sayat\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\sayat\\.nuget\\packages\\netescapades.aspnetcore.securityheaders\\0.22.0\\netescapades.aspnetcore.securityheaders.0.22.0.nupkg.sha512",
     "C:\\Users\\sayat\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\sayat\\.nuget\\packages\\npgsql\\8.0.3\\npgsql.8.0.3.nupkg.sha512",
     "C:\\Users\\sayat\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\8.0.4\\npgsql.entityframeworkcore.postgresql.8.0.4.nupkg.sha512",

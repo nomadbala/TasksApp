@@ -989,6 +989,22 @@
           "lib/netstandard2.0/Mono.TextTemplating.dll": {}
         }
       },
+      "NetEscapades.AspNetCore.SecurityHeaders/0.22.0": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.0/NetEscapades.AspNetCore.SecurityHeaders.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.0/NetEscapades.AspNetCore.SecurityHeaders.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "Newtonsoft.Json/11.0.2": {
         "type": "package",
         "compile": {
@@ -3306,6 +3322,25 @@
         "mono.texttemplating.nuspec"
       ]
     },
+    "NetEscapades.AspNetCore.SecurityHeaders/0.22.0": {
+      "sha512": "8Nzff7nu6SdvV7tq4six1P4ALIwFhpIaOFzYEfLlUi1qWZXoaC/kaUF+BXYRw9Jh7SfA2580z21ATg8OY0xfUg==",
+      "type": "package",
+      "path": "netescapades.aspnetcore.securityheaders/0.22.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net461/NetEscapades.AspNetCore.SecurityHeaders.dll",
+        "lib/net461/NetEscapades.AspNetCore.SecurityHeaders.xml",
+        "lib/net472/NetEscapades.AspNetCore.SecurityHeaders.dll",
+        "lib/net472/NetEscapades.AspNetCore.SecurityHeaders.xml",
+        "lib/netcoreapp3.0/NetEscapades.AspNetCore.SecurityHeaders.dll",
+        "lib/netcoreapp3.0/NetEscapades.AspNetCore.SecurityHeaders.xml",
+        "lib/netstandard2.0/NetEscapades.AspNetCore.SecurityHeaders.dll",
+        "lib/netstandard2.0/NetEscapades.AspNetCore.SecurityHeaders.xml",
+        "netescapades.aspnetcore.securityheaders.0.22.0.nupkg.sha512",
+        "netescapades.aspnetcore.securityheaders.nuspec"
+      ]
+    },
     "Newtonsoft.Json/11.0.2": {
       "sha512": "IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
       "type": "package",
@@ -5462,6 +5497,7 @@
       "Microsoft.AspNetCore.OpenApi >= 8.0.6",
       "Microsoft.EntityFrameworkCore >= 8.0.6",
       "Microsoft.EntityFrameworkCore.Design >= 8.0.6",
+      "NetEscapades.AspNetCore.SecurityHeaders >= 0.22.0",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 8.0.4",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
@@ -5523,6 +5559,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[8.0.6, )"
+          },
+          "NetEscapades.AspNetCore.SecurityHeaders": {
+            "target": "Package",
+            "version": "[0.22.0, )"
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",

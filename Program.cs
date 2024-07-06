@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using TasksApp;
 using TasksApp.Repository;
 using TasksApp.Service;
@@ -6,7 +7,10 @@ using TasksApp.Service;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+});
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
 builder.Services.AddDbContext<DatabaseContext>(options =>
@@ -28,18 +32,34 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/error");
+
+    app.UseHttpsRedirection();
+
+    var securityHeadersPolicy = new HeaderPolicyCollection()
+        .AddStrictTransportSecurityMaxAgeIncludeSubDomains(maxAgeInSeconds: 60 * 60 * 24 * 365) // HSTS на 1 год
+        .AddFrameOptionsDeny()
+        .AddXssProtectionBlock()
+        .AddContentTypeOptionsNoSniff()
+        .AddReferrerPolicyStrictOriginWhenCrossOrigin()
+        .RemoveServerHeader()
+        .AddContentSecurityPolicy(builder =>
+        {
+            builder.AddObjectSrc().None();
+            builder.AddFrameAncestors().None();
+        });
+
+    app.UseSecurityHeaders(securityHeadersPolicy);
 }
 
-await Task.Delay(6000);
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
     dbContext.Database.Migrate();
 }
 
-app.UseHttpsRedirection();
 app.UseRouting();
 app.UseAuthorization();
+
 app.MapControllers();
 app.MapHealthChecks("/health");
 
